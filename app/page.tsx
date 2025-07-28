@@ -110,7 +110,7 @@ const Home = async () => {
               Share, Discuss, Cite <span className='text-pink-500'>ChatGPT</span> Conversations
             </h1>
             <h1 className='text-3xl font-semibold mb-6 text-center'>
-              Example of change made <span className='text-green-500'>WOW!</span>
+              Example of more changes made <span className='text-purple-500'>WOW x 2!</span>
             </h1>
             <p className='text-center mb-8'>
               Your reliable tool for citing Generative A.I. conversations. Easily save discussions with Gemini, ChatGPT,
