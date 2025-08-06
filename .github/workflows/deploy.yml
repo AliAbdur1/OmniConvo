@@ -27,9 +27,10 @@ jobs:
           rsync -avz --delete \
             --exclude 'node_modules' --exclude '.git' --exclude '.env' \
             -e "ssh -i deploy_key -o StrictHostKeyChecking=no" \
-            . $USER@$HOST:~/app
+            . $USER@$HOST:/home/ubuntu/omniapp/OmniConvo
 
       - name: Restart OmniConvo service
         run: |
           ssh -i deploy_key -o StrictHostKeyChecking=no $USER@$HOST \
             "sudo systemctl restart omniconvo"
+
