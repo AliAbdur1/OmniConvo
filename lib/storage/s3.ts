@@ -108,6 +108,31 @@ class S3StorageClient {
     const content = await response.Body.transformToString();
     return content;
   }
+
+  /**
+   * Store text content in S3
+   * @param textId Unique identifier for the text
+   * @param content Text content to store
+   * @returns The S3 key where the content was stored
+   */
+  public async storeText(textId: string, content: string): Promise<string> {
+    if (!this.client) {
+      throw new Error('S3 client not initialized');
+    }
+
+    const key = `texts/${textId}.txt`;
+
+    await this.client.send(
+      new PutObjectCommand({
+        Bucket: this.bucketName,
+        Key: key,
+        Body: content,
+        ContentType: 'text/plain',
+      })
+    );
+
+    return key;
+  }
 }
 
 export const s3Client = S3StorageClient.getInstance();

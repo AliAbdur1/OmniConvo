@@ -35,6 +35,9 @@ class DatabaseClient {
       database: config.database,
       user: config.user,
       password: config.password,
+      ssl: {
+        rejectUnauthorized: false // Allow self-signed certificates
+      }
     });
 
     // Test the connection
@@ -66,6 +69,19 @@ class DatabaseClient {
       await this.pool.end();
       this.pool = null;
     }
+  }
+
+  /**
+   * Execute a SQL query
+   * @param text SQL query text
+   * @param params Query parameters
+   * @returns Query result
+   * @throws Error if the client is not initialized
+   */
+  public async query<T extends Record<string, any> = Record<string, any>>(text: string, params?: any[]): Promise<{ rows: T[] }> {
+    const pool = this.getPool();
+    const result = await pool.query<T>(text, params);
+    return { rows: result.rows };
   }
 }
 

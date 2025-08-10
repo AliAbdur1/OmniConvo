@@ -1,5 +1,6 @@
-import { HelpCircle } from 'lucide-react';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
+import { ConversationForm } from '@/components/conversation-form';
+import { HelpCircle } from 'lucide-react';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -124,6 +125,7 @@ const Home = async () => {
             <CardContent>
               <p className='text-gray-500 text-lg'>No conversations found. Be the first to share a conversation!</p>
             </CardContent>
+            <ConversationForm />
           </Card>
         ) : (
           <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
@@ -169,6 +171,7 @@ const Home = async () => {
                       <span>|</span>
                       <span>{card.related} Related</span>
                     </div>
+                    
                   </CardFooter>
                 </Card>
               </Link>
