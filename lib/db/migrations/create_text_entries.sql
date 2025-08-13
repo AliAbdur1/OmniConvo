@@ -1,0 +1,6 @@
+CREATE TABLE IF NOT EXISTS text_entries (
+  id UUID PRIMARY KEY,
+  title TEXT NOT NULL,
+  content_key TEXT NOT NULL,
+  created_at TIMESTAMP WITH TIME ZONE NOT NULL
+);

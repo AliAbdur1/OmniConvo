@@ -45,6 +45,25 @@ class S3StorageClient {
    * @param content HTML content to store
    * @returns The S3 key where the content was stored
    */
+  public async storeText(textId: string, content: string): Promise<string> {
+    if (!this.client) {
+      throw new Error('S3 client not initialized');
+    }
+
+    const key = `texts/${textId}.txt`;
+
+    await this.client.send(
+      new PutObjectCommand({
+        Bucket: this.bucketName,
+        Key: key,
+        Body: content,
+        ContentType: 'text/plain',
+      })
+    );
+
+    return key;
+  }
+
   public async storeConversation(conversationId: string, content: string): Promise<string> {
     if (!this.client) {
       throw new Error('S3 client not initialized');
