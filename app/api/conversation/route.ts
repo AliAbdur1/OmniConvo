@@ -30,7 +30,8 @@ async function ensureInitialized() {
   }
 }
 
-const ALLOWED_ORIGIN = 'https://www.meta.ai';
+// const ALLOWED_ORIGIN = 'https://www.meta.ai';
+const ALLOWED_ORIGIN = '*';
 
 export async function OPTIONS() {
   // Preflight handler
