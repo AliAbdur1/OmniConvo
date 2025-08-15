@@ -30,7 +30,7 @@ async function ensureInitialized() {
   }
 }
 
-const ALLOWED_ORIGIN = '*';
+const ALLOWED_ORIGIN = 'https://www.meta.ai';
 
 export async function OPTIONS() {
   // Preflight handler
@@ -69,7 +69,14 @@ export async function POST(req: NextRequest) {
 
     // Validate input
     if (!(file instanceof Blob)) {
-      return NextResponse.json({ error: '`htmlDoc` must be a file field' }, { status: 400 });
+      return NextResponse.json({ error: '`htmlDoc` must be a file field' }, { 
+        status: 400,
+        headers: {
+          'Access-Control-Allow-Origin': ALLOWED_ORIGIN,
+          'Access-Control-Allow-Methods': 'POST, GET, OPTIONS',
+          'Access-Control-Allow-Headers': 'Content-Type'
+        }
+      });
     }
 
     // Parse the conversation from HTML
@@ -107,7 +114,14 @@ export async function POST(req: NextRequest) {
     );
   } catch (err) {
     console.error('Error processing conversation:', err);
-    return NextResponse.json({ error: 'Internal error, see logs' }, { status: 500 });
+    return NextResponse.json({ error: 'Internal error, see logs' }, { 
+      status: 500,
+      headers: {
+        'Access-Control-Allow-Origin': ALLOWED_ORIGIN,
+        'Access-Control-Allow-Methods': 'POST, GET, OPTIONS',
+        'Access-Control-Allow-Headers': 'Content-Type'
+      }
+    });
   }
 }
 
@@ -139,11 +153,25 @@ export async function GET(req: NextRequest) {
     const offset = offsetParam ? parseInt(offsetParam, 10) : 0;
 
     if (isNaN(limit) || limit < 1 || limit > 100) {
-      return NextResponse.json({ error: 'Invalid limit parameter. Must be between 1 and 100.' }, { status: 400 });
+      return NextResponse.json({ error: 'Invalid limit parameter. Must be between 1 and 100.' }, { 
+        status: 400,
+        headers: {
+          'Access-Control-Allow-Origin': ALLOWED_ORIGIN,
+          'Access-Control-Allow-Methods': 'POST, GET, OPTIONS',
+          'Access-Control-Allow-Headers': 'Content-Type'
+        }
+      });
     }
 
     if (isNaN(offset) || offset < 0) {
-      return NextResponse.json({ error: 'Invalid offset parameter. Must be non-negative.' }, { status: 400 });
+      return NextResponse.json({ error: 'Invalid offset parameter. Must be non-negative.' }, { 
+        status: 400,
+        headers: {
+          'Access-Control-Allow-Origin': ALLOWED_ORIGIN,
+          'Access-Control-Allow-Methods': 'POST, GET, OPTIONS',
+          'Access-Control-Allow-Headers': 'Content-Type'
+        }
+      });
     }
 
     // Retrieve conversations from database
@@ -160,6 +188,13 @@ export async function GET(req: NextRequest) {
     );
   } catch (err) {
     console.error('Error retrieving conversations:', err);
-    return NextResponse.json({ error: 'Internal error, see logs' }, { status: 500 });
+    return NextResponse.json({ error: 'Internal error, see logs' }, { 
+      status: 500,
+      headers: {
+        'Access-Control-Allow-Origin': ALLOWED_ORIGIN,
+        'Access-Control-Allow-Methods': 'POST, GET, OPTIONS',
+        'Access-Control-Allow-Headers': 'Content-Type'
+      }
+    });
   }
 }
