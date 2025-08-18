@@ -24,8 +24,8 @@ export async function parseMeta(html: string): Promise<Conversation> {
   
   while (depth > 0 && divEnd < html.length) {
     divEnd++;
-    if (html.slice(divEnd, divEnd + 3) === '</div') depth--;
-    if (html.slice(divEnd, divEnd + 3) === '<div') depth++;
+    if (html.slice(divEnd, divEnd + 4) === '</div') depth--;
+    if (html.slice(divEnd, divEnd + 4) === '<div') depth++;
   }
 
   // Find the end of the closing tag
