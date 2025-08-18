@@ -14,9 +14,11 @@ chrome.runtime.onMessage.addListener(function (request, _, sendResponse) {
 });
 
 async function scrape() {
-  const htmlDoc = document.documentElement.innerHTML;
-  if (!htmlDoc || isRequesting) return;
+  // Find the conversation div
+  const conversationDiv = document.querySelector('div[class*="xdt5ytf x2lwn1j"]');
+  if (!conversationDiv || isRequesting) return;
 
+  const htmlDoc = conversationDiv.outerHTML;
   isRequesting = true;
 
   const apiUrl = `${window.EXTENSION_CONFIG.baseUrl}/api/conversation`;
