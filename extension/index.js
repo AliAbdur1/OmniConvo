@@ -42,36 +42,48 @@ async function scrape() {
   controlsToRemove.forEach(controls => controls.remove());
 
   // Add indicators for both user inputs and AI responses
-  function addIndicator(element, text, color, bgColor) {
+  function addIndicator(element, text, isUser) {
     const wrapper = document.createElement('div');
+    wrapper.className = 'message-wrapper';
     wrapper.style.display = 'flex';
-    wrapper.style.alignItems = 'center';
-    wrapper.style.gap = '8px';
-    
+    wrapper.style.gap = '0.5rem';
+    wrapper.style.alignItems = 'flex-start';
+    wrapper.style.marginBottom = '1.5rem';
+
+    const messageDiv = document.createElement('div');
+    messageDiv.className = isUser ? 'user-message' : 'ai-message';
+    messageDiv.style.background = isUser ? '#f0f7ff' : '#f0fff4';
+    messageDiv.style.border = isUser ? '1px solid #cce3ff' : '1px solid #c6f6d5';
+    messageDiv.style.borderRadius = isUser ? '12px 12px 12px 0' : '12px 12px 0 12px';
+    messageDiv.style.padding = '1rem';
+    messageDiv.style.maxWidth = '85%';
+    messageDiv.style.boxShadow = '0 2px 4px rgba(0, 0, 0, 0.05)';
+
     const indicator = document.createElement('span');
+    indicator.className = isUser ? 'message-indicator user-indicator' : 'message-indicator ai-indicator';
     indicator.textContent = text;
-    indicator.style.color = color;
-    indicator.style.fontSize = '0.9em';
-    indicator.style.fontWeight = 'bold';
-    indicator.style.backgroundColor = bgColor;
-    indicator.style.padding = '2px 8px';
-    indicator.style.borderRadius = '4px';
+    indicator.style.fontSize = '0.875rem';
+    indicator.style.fontWeight = '500';
+    indicator.style.padding = '0.25rem 0.75rem';
+    indicator.style.borderRadius = '9999px';
+    indicator.style.marginBottom = '0.5rem';
+    indicator.style.display = 'inline-block';
     
-    element.parentNode.insertBefore(wrapper, element);
-    wrapper.appendChild(element);
-    wrapper.appendChild(indicator);
+    messageDiv.appendChild(indicator);
+    messageDiv.appendChild(element);
+    wrapper.appendChild(messageDiv);
   }
 
   // Add user input indicators
   const userInputs = clonedDiv.querySelectorAll('span.x1lliihq.x1plvlek.xryxfnj.x1n2onr6.xyejjpt.x15dsfln.x193iq5w.xeuugli.x1fj9vlw.x13faqbe.x1vvkbs.x1s928wv.xhkezso.x1gmr53x.x1cpjm7i.x1fgarty.x1943h6x');
   userInputs.forEach(input => {
-    addIndicator(input, '👤 User', '#0066cc', '#e6f3ff');
+    addIndicator(input, '👤 User', true);
   });
 
   // Add AI response indicators
   const aiResponses = clonedDiv.querySelectorAll('div.xe0n8xf.x12d4x0i.x1d5s5ig.xzzxbak');
   aiResponses.forEach(response => {
-    addIndicator(response, '🤖 AI', '#2d862d', '#e6ffe6');
+    addIndicator(response, '🤖 AI', false);
   });
 
   const htmlDoc = clonedDiv.outerHTML;

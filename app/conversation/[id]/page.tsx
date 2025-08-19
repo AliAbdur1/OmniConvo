@@ -137,8 +137,71 @@ const ConversationDetailPage = async ({ params }: { params: Promise<{ id: string
               </div>
 
               <div className='prose max-w-none'>
+                <style jsx global>{
+                  `
+                    .conversation-content {
+                      display: flex;
+                      flex-direction: column;
+                      gap: 1.5rem;
+                    }
+                    .message-wrapper {
+                      display: flex;
+                      gap: 0.5rem;
+                      align-items: flex-start;
+                      animation: fadeIn 0.3s ease-out;
+                    }
+                    @keyframes fadeIn {
+                      from { opacity: 0; transform: translateY(10px); }
+                      to { opacity: 1; transform: translateY(0); }
+                    }
+                    .user-message {
+                      background: #f0f7ff;
+                      border: 1px solid #cce3ff;
+                      border-radius: 12px 12px 12px 0;
+                      padding: 1rem;
+                      max-width: 85%;
+                      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+                    }
+                    .ai-message {
+                      background: #f0fff4;
+                      border: 1px solid #c6f6d5;
+                      border-radius: 12px 12px 0 12px;
+                      padding: 1rem;
+                      max-width: 85%;
+                      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+                    }
+                    .message-indicator {
+                      font-size: 0.875rem;
+                      font-weight: 500;
+                      padding: 0.25rem 0.75rem;
+                      border-radius: 9999px;
+                      margin-bottom: 0.5rem;
+                    }
+                    .user-indicator {
+                      background: #e6f0ff;
+                      color: #0066cc;
+                    }
+                    .ai-indicator {
+                      background: #e6ffe6;
+                      color: #2d862d;
+                    }
+                    code {
+                      background: #2d2d2d;
+                      color: #fff;
+                      padding: 1rem;
+                      border-radius: 8px;
+                      margin: 1rem 0;
+                      display: block;
+                      overflow-x: auto;
+                    }
+                    pre {
+                      margin: 0;
+                      padding: 0;
+                    }
+                  `
+                }</style>
                 <div
-                  className='bg-gray-50 p-4 rounded-lg border border-gray-200'
+                  className='conversation-content bg-white p-6 rounded-lg border border-gray-200'
                   dangerouslySetInnerHTML={{ __html: formattedContent }}
                 />
               </div>
