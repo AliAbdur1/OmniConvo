@@ -38,7 +38,7 @@ async function scrape() {
   const clonedDiv = conversationDiv.cloneNode(true);
   
   // Remove UI controls container
-  const controlsToRemove = clonedDiv.querySelectorAll('div.x78zum5.xmixu3c.xw09woa.x4vbgl9.xe9ewy2.x11lt19s.xjl7jj.xg01cxk.xx6bhzk.x19991ni.xz4gly6.xxc3ku7');
+  const controlsToRemove = clonedDiv.querySelectorAll('div.x78zum5.xmixu3c');
   controlsToRemove.forEach(controls => controls.remove());
 
   // Add indicators for both user inputs and AI responses
@@ -81,7 +81,7 @@ async function scrape() {
   });
 
   // Add AI response indicators
-  const aiResponses = clonedDiv.querySelectorAll('div.xe0n8xf.x12d4x0i.x1d5s5ig.xzzxbak');
+  const aiResponses = clonedDiv.querySelectorAll('div.xb57i2i:not(:has(span.x1lliihq.x1plvlek.xryxfnj.x1n2onr6))');
   aiResponses.forEach(response => {
     addIndicator(response, '🤖 AI', false);
   });
