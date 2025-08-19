@@ -22,8 +22,12 @@ async function scrape() {
     return;
   }
 
-  // Get the main conversation container
-  const conversationDiv = messageDivs[0].closest('div[role="main"]');
+  // Get the conversation container by walking up the parent chain
+  let conversationDiv = messageDivs[0].parentElement;
+  while (conversationDiv && !conversationDiv.classList.contains('xb57i2i')) {
+    conversationDiv = conversationDiv.parentElement;
+  }
+  console.log('Found conversation container:', conversationDiv?.className);
   if (!conversationDiv) {
     console.log('Could not find conversation container');
     return;

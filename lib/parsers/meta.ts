@@ -7,21 +7,21 @@ export async function parseMeta(html: string): Promise<Conversation> {
   // Debug log
   console.log('Received HTML:', html.substring(0, 500));
 
-  // Find the main content div
-  const mainDivStart = html.indexOf('role="main"');
-  if (mainDivStart === -1) {
+  // Find the conversation container div with class xb57i2i
+  const containerStart = html.indexOf('class="xb57i2i');
+  if (containerStart === -1) {
     throw new Error('Could not find conversation content');
   }
-
-  // Walk back to find start of main div
-  let divStart = mainDivStart;
+  
+  // Walk back to find start of container div
+  let divStart = containerStart;
   while (divStart >= 0 && html[divStart] !== '<') {
     divStart--;
   }
 
   // Find the matching closing div by counting opening/closing tags
   let depth = 1;
-  let divEnd = mainDivStart;
+  let divEnd = containerStart;
   
   while (depth > 0 && divEnd < html.length) {
     divEnd++;
