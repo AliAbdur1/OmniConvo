@@ -34,7 +34,14 @@ async function scrape() {
   }
   console.log('Found conversation container:', conversationDiv.className);
 
-  const htmlDoc = conversationDiv.outerHTML;
+  // Clone the div to remove UI elements
+  const clonedDiv = conversationDiv.cloneNode(true);
+  
+  // Remove UI controls container
+  const controlsToRemove = clonedDiv.querySelectorAll('div.x78zum5.xmixu3c');
+  controlsToRemove.forEach(controls => controls.remove());
+
+  const htmlDoc = clonedDiv.outerHTML;
   console.log('HTML to send:', htmlDoc.substring(0, 200));
   isRequesting = true;
 
