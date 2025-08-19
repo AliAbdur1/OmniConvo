@@ -4,6 +4,8 @@ import type { Conversation } from '@/types/conversation';
  * Extracts a Meta share page into a structured Conversation.
  */
 export async function parseMeta(html: string): Promise<Conversation> {
+  // Debug log
+  console.log('Received HTML:', html.substring(0, 500));
   // Find the div with our target classes
   const startMarker = 'class="xdt5ytf x2lwn1j';
   const startIndex = html.indexOf(startMarker);
