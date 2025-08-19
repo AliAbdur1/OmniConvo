@@ -14,13 +14,11 @@ chrome.runtime.onMessage.addListener(function (request, _, sendResponse) {
 });
 
 async function scrape() {
-  // Debug: Log all divs with similar classes
-  const allDivs = document.querySelectorAll('div[class*="xdt5ytf"]');
-  console.log('Found divs with xdt5ytf:', allDivs.length);
-  allDivs.forEach(div => console.log('Classes:', div.className));
-
-  // Find the conversation div
-  const conversationDiv = document.querySelector('div[class*="xdt5ytf x2lwn1j"]');
+  // Find div with both required classes
+  const targetClasses = ['xdt5ytf', 'x2lwn1j'];
+  const conversationDiv = Array.from(document.getElementsByTagName('div'))
+    .find(div => targetClasses.every(c => div.className.includes(c)));
+    
   console.log('Found conversation div:', conversationDiv?.className);
   if (!conversationDiv || isRequesting) return;
 

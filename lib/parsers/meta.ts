@@ -6,9 +6,22 @@ import type { Conversation } from '@/types/conversation';
 export async function parseMeta(html: string): Promise<Conversation> {
   // Debug log
   console.log('Received HTML:', html.substring(0, 500));
-  // Find the div with our target classes
-  const startMarker = 'class="xdt5ytf x2lwn1j';
-  const startIndex = html.indexOf(startMarker);
+  // Find a div that contains both target classes
+  const targetClasses = ['xdt5ytf', 'x2lwn1j'];
+  let currentIndex = html.indexOf('class="');
+  let startIndex = -1;
+  
+  // Keep searching for class attributes until we find one with both target classes
+  while (currentIndex !== -1 && startIndex === -1) {
+    const classEnd = html.indexOf('"', currentIndex + 7);
+    if (classEnd !== -1) {
+      const classNames = html.slice(currentIndex + 7, classEnd).split(' ');
+      if (targetClasses.every(tc => classNames.includes(tc))) {
+        startIndex = currentIndex;
+      }
+    }
+    currentIndex = html.indexOf('class="', currentIndex + 1);
+  }
   
   if (startIndex === -1) {
     throw new Error('Could not find conversation content');
