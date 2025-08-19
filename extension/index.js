@@ -41,6 +41,28 @@ async function scrape() {
   const controlsToRemove = clonedDiv.querySelectorAll('div.x78zum5.xmixu3c');
   controlsToRemove.forEach(controls => controls.remove());
 
+  // Add user input indicator - target spans with exact class structure
+  const userInputs = clonedDiv.querySelectorAll('span.x1lliihq.x1plvlek.xryxfnj.x1n2onr6.xyejjpt.x15dsfln.x193iq5w.xeuugli.x1fj9vlw.x13faqbe.x1vvkbs.x1s928wv.xhkezso.x1gmr53x.x1cpjm7i.x1fgarty.x1943h6x');
+  userInputs.forEach(input => {
+    const wrapper = document.createElement('div');
+    wrapper.style.display = 'flex';
+    wrapper.style.alignItems = 'center';
+    wrapper.style.gap = '8px';
+    
+    const indicator = document.createElement('span');
+    indicator.textContent = '👤 User';
+    indicator.style.color = '#0066cc';
+    indicator.style.fontSize = '0.9em';
+    indicator.style.fontWeight = 'bold';
+    indicator.style.backgroundColor = '#e6f3ff';
+    indicator.style.padding = '2px 8px';
+    indicator.style.borderRadius = '4px';
+    
+    input.parentNode.insertBefore(wrapper, input);
+    wrapper.appendChild(input);
+    wrapper.appendChild(indicator);
+  });
+
   const htmlDoc = clonedDiv.outerHTML;
   console.log('HTML to send:', htmlDoc.substring(0, 200));
   isRequesting = true;
