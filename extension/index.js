@@ -37,8 +37,8 @@ async function scrape() {
   // Clone the div to remove UI elements
   const clonedDiv = conversationDiv.cloneNode(true);
   
-  // Remove UI controls containers including copy/feedback buttons
-  const controlsToRemove = clonedDiv.querySelectorAll('div[aria-label="Copy"], div[aria-label="Good Response"], div[aria-label="Bad Response"], div.x78zum5.xmixu3c.xw09woa.x4vbgl9.xe9ewy2.x11lt19s.xjl7jj');
+  // Remove UI controls container
+  const controlsToRemove = clonedDiv.querySelectorAll('div.x78zum5.xmixu3c.xw09woa.x4vbgl9.xe9ewy2.x11lt19s.xjl7jj.xg01cxk.xx6bhzk.x19991ni.xz4gly6.xxc3ku7');
   controlsToRemove.forEach(controls => controls.remove());
 
   // Add indicators for both user inputs and AI responses
