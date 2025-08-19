@@ -14,13 +14,21 @@ chrome.runtime.onMessage.addListener(function (request, _, sendResponse) {
 });
 
 async function scrape() {
-  // Find div with both required classes
-  const targetClasses = ['xdt5ytf', 'x2lwn1j'];
-  const conversationDiv = Array.from(document.getElementsByTagName('div'))
-    .find(div => targetClasses.every(c => div.className.includes(c)));
-    
-  console.log('Found conversation div:', conversationDiv?.className);
-  if (!conversationDiv || isRequesting) return;
+  // Find all message content divs
+  const messageDivs = document.querySelectorAll('div.html-div.xdj266r');
+  console.log('Found message divs:', messageDivs.length);
+  if (!messageDivs.length || isRequesting) {
+    console.log('No messages found or already requesting');
+    return;
+  }
+
+  // Get the main conversation container
+  const conversationDiv = messageDivs[0].closest('div[role="main"]');
+  if (!conversationDiv) {
+    console.log('Could not find conversation container');
+    return;
+  }
+  console.log('Found conversation container:', conversationDiv.className);
 
   const htmlDoc = conversationDiv.outerHTML;
   console.log('HTML to send:', htmlDoc.substring(0, 200));
