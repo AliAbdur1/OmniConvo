@@ -38,30 +38,8 @@ async function scrape() {
   const clonedDiv = conversationDiv.cloneNode(true);
   
   // Remove UI controls container
-  const controlsToRemove = clonedDiv.querySelectorAll('div.x78zum5.xamitd3.x9f619');
+  const controlsToRemove = clonedDiv.querySelectorAll('div.x78zum5.xmixu3c');
   controlsToRemove.forEach(controls => controls.remove());
-
-  // Add user input indicator
-  const userInputs = clonedDiv.querySelectorAll('span.x1lliihq.x1plvlek.xryxfnj.x1n2onr6');
-  userInputs.forEach(input => {
-    const wrapper = document.createElement('div');
-    wrapper.style.display = 'flex';
-    wrapper.style.alignItems = 'center';
-    wrapper.style.gap = '8px';
-    
-    const indicator = document.createElement('span');
-    indicator.textContent = '👤 User Input';
-    indicator.style.color = '#0066cc';
-    indicator.style.fontSize = '0.9em';
-    indicator.style.fontWeight = 'bold';
-    indicator.style.backgroundColor = '#e6f3ff';
-    indicator.style.padding = '2px 8px';
-    indicator.style.borderRadius = '4px';
-    
-    input.parentNode.insertBefore(wrapper, input);
-    wrapper.appendChild(input);
-    wrapper.appendChild(indicator);
-  });
 
   const htmlDoc = clonedDiv.outerHTML;
   console.log('HTML to send:', htmlDoc.substring(0, 200));
