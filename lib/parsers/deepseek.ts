@@ -5,7 +5,7 @@ import sanitizeHtml from 'sanitize-html';
 /**
  * Extracts a Deepseek share page into a structured Conversation.
  */
-export async function parseDeepseek(html: string): Promise<Conversation> {
+export async function parseDeepSeek(html: string): Promise<Conversation> {
   if (!html?.trim()) {
     throw new Error('Empty or invalid HTML content');
   }
