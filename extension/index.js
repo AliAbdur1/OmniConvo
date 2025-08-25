@@ -73,10 +73,11 @@ async function scrape() {
 
   // Add AI response indicators (manual filter, avoids :has())
   const aiResponses = [
-    ...clonedDiv.querySelectorAll('div.xb57i2i, div.html-div.xdj266r, ol.x43c9pm, ul.x43c9pm li.xe0n8xf, span.x1lliihq:has(ol.x43c9pm)')
+    ...clonedDiv.querySelectorAll('div.xb57i2i, div.html-div.xdj266r, ol.x43c9pm, ul.x43c9pm li.xe0n8xf, span.x1lliihq:has(ol.x43c9pm), div[dir="auto"]:not(:empty)')
   ].filter(div => {
-    // Exclude elements inside user messages
+    // Exclude elements inside user messages and empty dir="auto" divs
     if (div.closest('span.x1lliihq.x1plvlek:not(:has(ol.x43c9pm))')) return false;
+    if (div.hasAttribute('dir') && !div.textContent.trim()) return false;
     
     // Include section headers
     if (div.querySelector('[id^="section-"]')) return true;
@@ -85,7 +86,8 @@ async function scrape() {
     const isList = div.classList.contains('xe0n8xf') || div.classList.contains('x43c9pm');
     const isHeader = div.querySelector('b');
     const isRegularContent = div.classList.contains('xdj266r') || 
-                           div.classList.contains('xb57i2i');
+                           div.classList.contains('xb57i2i') ||
+                           (div.hasAttribute('dir') && div.children.length > 0);  // Only non-empty dir="auto" divs
     
     // Group related list items under their headers
     if (isList && isHeader) {
