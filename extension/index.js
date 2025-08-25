@@ -1,6 +1,6 @@
 'use strict';
 var isRequesting = false;
-var model = 'ChatGPT';
+var model = 'Meta';
 
 chrome.runtime.onMessage.addListener(function (request, _, sendResponse) {
   if (request.action === 'scrape') {
