@@ -73,7 +73,7 @@ async function scrape() {
 
   // Add AI response indicators (manual filter, avoids :has())
   const aiResponses = [
-    ...clonedDiv.querySelectorAll('div.xb57i2i, div.html-div.xdj266r, ol.x43c9pm li.xe0n8xf')
+    ...clonedDiv.querySelectorAll('div.xb57i2i, div.html-div.xdj266r, ol.x43c9pm li.xe0n8xf, ul.x43c9pm li.xe0n8xf')
   ].filter(div => {
     // Exclude elements inside user messages
     if (div.closest('span.x1lliihq.x1plvlek')) return false;
@@ -82,15 +82,29 @@ async function scrape() {
     if (div.querySelector('[id^="section-"]')) return true;
     
     // Include list items and regular content
-    return div.classList.contains('xdj266r') || 
-           div.classList.contains('xe0n8xf') ||
-           div.classList.contains('xb57i2i');
+    const isList = div.classList.contains('xe0n8xf');
+    const isHeader = div.querySelector('b');
+    const isRegularContent = div.classList.contains('xdj266r') || 
+                           div.classList.contains('xb57i2i');
+    
+    // Group related list items under their headers
+    if (isList && isHeader) {
+      const subItems = div.nextElementSibling?.querySelectorAll('li.xe0n8xf');
+      if (subItems) {
+        subItems.forEach(item => item.dataset.parentHeader = div.textContent);
+      }
+    }
+    
+    return isRegularContent || isList;
   });
 
   aiResponses.forEach(response => {
     // Get section header if present
     const sectionHeader = response.querySelector('[id^="section-"]');
-    const label = sectionHeader ? `🤖 AI (${sectionHeader.textContent})` : '🤖 AI';
+    const parentHeader = response.dataset.parentHeader;
+    const label = sectionHeader ? `🤖 AI (${sectionHeader.textContent})` : 
+                 parentHeader ? `🤖 AI (${parentHeader})` :
+                 '🤖 AI';
     addIndicator(response, label, false);
   });
 
