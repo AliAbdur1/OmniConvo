@@ -72,11 +72,26 @@ async function scrape() {
   });
 
   // Add AI response indicators (manual filter, avoids :has())
-  const aiResponses = [...clonedDiv.querySelectorAll('div.xb57i2i')]
-    .filter(div => !div.querySelector('span.x1lliihq.x1plvlek.xryxfnj.x1n2onr6'));
+  const aiResponses = [
+    ...clonedDiv.querySelectorAll('div.xb57i2i, div.html-div.xdj266r, ol.x43c9pm li.xe0n8xf')
+  ].filter(div => {
+    // Exclude elements inside user messages
+    if (div.closest('span.x1lliihq.x1plvlek')) return false;
+    
+    // Include section headers
+    if (div.querySelector('[id^="section-"]')) return true;
+    
+    // Include list items and regular content
+    return div.classList.contains('xdj266r') || 
+           div.classList.contains('xe0n8xf') ||
+           div.classList.contains('xb57i2i');
+  });
+
   aiResponses.forEach(response => {
-    // console.log("AI response:", i, response.textContent.slice(0,50)); // looking for duplicates
-    addIndicator(response, '🤖 AI', false);
+    // Get section header if present
+    const sectionHeader = response.querySelector('[id^="section-"]');
+    const label = sectionHeader ? `🤖 AI (${sectionHeader.textContent})` : '🤖 AI';
+    addIndicator(response, label, false);
   });
 
   // Inject global CSS into cloned document
