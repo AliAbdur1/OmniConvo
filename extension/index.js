@@ -64,7 +64,7 @@ async function scrape() {
 
   // Add user input indicators
   const userInputs = clonedDiv.querySelectorAll(
-    'span.x1lliihq.x1plvlek.xryxfnj.x1n2onr6.xyejjpt.x15dsfln.x193iq5w.xeuugli.x1fj9vlw.x13faqbe.x1vvkbs.x1s928wv.xhkezso.x1gmr53x.x1cpjm7i.x1fgarty.x1943h6x'
+    'span.x1lliihq.x1plvlek.xryxfnj.x1n2onr6:not(:has(ol.x43c9pm))'
   );
   userInputs.forEach(input => {
     // console.log("User input:", i, input.textContent.slice(0,50)); // looking for duplicates
@@ -73,10 +73,10 @@ async function scrape() {
 
   // Add AI response indicators (manual filter, avoids :has())
   const aiResponses = [
-    ...clonedDiv.querySelectorAll('div.xb57i2i, div.html-div.xdj266r, ol.x43c9pm, ul.x43c9pm li.xe0n8xf')
+    ...clonedDiv.querySelectorAll('div.xb57i2i, div.html-div.xdj266r, ol.x43c9pm, ul.x43c9pm li.xe0n8xf, span.x1lliihq:has(ol.x43c9pm)')
   ].filter(div => {
     // Exclude elements inside user messages
-    if (div.closest('span.x1lliihq.x1plvlek')) return false;
+    if (div.closest('span.x1lliihq.x1plvlek:not(:has(ol.x43c9pm))')) return false;
     
     // Include section headers
     if (div.querySelector('[id^="section-"]')) return true;
