@@ -73,7 +73,7 @@ async function scrape() {
 
   // Add AI response indicators (manual filter, avoids :has())
   const aiResponses = [
-    ...clonedDiv.querySelectorAll('div.xb57i2i, div.html-div.xdj266r, ol.x43c9pm, ul.x43c9pm li.xe0n8xf')
+    ...clonedDiv.querySelectorAll('div.xb57i2i, div.html-div.xdj266r, ol.x43c9pm li.xe0n8xf, ul.x43c9pm li.xe0n8xf')
   ].filter(div => {
     // Exclude elements inside user messages
     if (div.closest('span.x1lliihq.x1plvlek')) return false;
@@ -82,7 +82,7 @@ async function scrape() {
     if (div.querySelector('[id^="section-"]')) return true;
     
     // Include list items and regular content
-    const isList = div.classList.contains('xe0n8xf') || div.classList.contains('x43c9pm');
+    const isList = div.classList.contains('xe0n8xf');
     const isHeader = div.querySelector('b');
     const isRegularContent = div.classList.contains('xdj266r') || 
                            div.classList.contains('xb57i2i');
