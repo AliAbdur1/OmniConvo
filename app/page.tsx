@@ -113,7 +113,7 @@ const Home = async () => {
               Example of more changes made <span className='text-purple-500'>WOW x 2!</span>
             </h1>
             <p className='text-center mb-8'>
-              Your reliable super tool for citing Generative A.I. conversations. Easily save discussions with Gemini, ChatGPT,
+              Your ultra reliable tool for citing Generative A.I. conversations. Easily save discussions with Gemini, ChatGPT,
               Meta and Claude into a URL.
             </p>
           </CardContent>
