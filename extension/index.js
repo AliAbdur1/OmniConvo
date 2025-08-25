@@ -67,7 +67,7 @@ async function scrape() {
     'span.x1lliihq.x1plvlek.xryxfnj.x1n2onr6.xyejjpt.x15dsfln.x193iq5w.xeuugli.x1fj9vlw.x13faqbe.x1vvkbs.x1s928wv.xhkezso.x1gmr53x.x1cpjm7i.x1fgarty.x1943h6x'
   );
   userInputs.forEach(input => {
-    console.log("User input:", i, input.textContent.slice(0,50)); // looking for duplicates
+    // console.log("User input:", i, input.textContent.slice(0,50)); // looking for duplicates
     addIndicator(input, '👤 User', true);
   });
 
@@ -75,7 +75,7 @@ async function scrape() {
   const aiResponses = [...clonedDiv.querySelectorAll('div.xb57i2i')]
     .filter(div => !div.querySelector('span.x1lliihq.x1plvlek.xryxfnj.x1n2onr6'));
   aiResponses.forEach(response => {
-    console.log("AI response:", i, response.textContent.slice(0,50)); // looking for duplicates
+    // console.log("AI response:", i, response.textContent.slice(0,50)); // looking for duplicates
     addIndicator(response, '🤖 AI', false);
   });
 
