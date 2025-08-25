@@ -3,4 +3,5 @@ export interface Conversation {
   model: string;
   scrapedAt: string;
   sourceHtmlBytes: number;
+  messageCount: number;
 }

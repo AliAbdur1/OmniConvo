@@ -27,63 +27,40 @@ async function scrape() {
   while (conversationDiv && !conversationDiv.classList.contains('xb57i2i')) {
     conversationDiv = conversationDiv.parentElement;
   }
-  console.log('Found conversation container:', conversationDiv?.className);
   if (!conversationDiv) {
     console.log('Could not find conversation container');
     return;
   }
-  console.log('Found conversation container:', conversationDiv.className);
 
-  // Clone the div to remove UI elements
+  // Clone the div to preserve original DOM
   const clonedDiv = conversationDiv.cloneNode(true);
   
-  // Remove UI controls container
-  const controlsToRemove = clonedDiv.querySelectorAll('div.x78zum5.xmixu3c');
-  controlsToRemove.forEach(controls => controls.remove());
+  // Remove UI controls and unnecessary elements
+  const elementsToRemove = clonedDiv.querySelectorAll('div.x78zum5.xmixu3c, div[role="button"]');
+  elementsToRemove.forEach(el => el.remove());
 
-  // Add indicators for both user inputs and AI responses
-  function addIndicator(element, text, isUser) {
-    const wrapper = document.createElement('div');
-    wrapper.className = 'message-wrapper';
-    wrapper.style.display = 'flex';
-    wrapper.style.gap = '0.5rem';
-    wrapper.style.alignItems = 'flex-start';
-    wrapper.style.marginBottom = '1.5rem';
-
-    const messageDiv = document.createElement('div');
-    messageDiv.className = isUser ? 'user-message' : 'ai-message';
-    messageDiv.style.background = isUser ? '#f0f7ff' : '#f0fff4';
-    messageDiv.style.border = isUser ? '1px solid #cce3ff' : '1px solid #c6f6d5';
-    messageDiv.style.borderRadius = isUser ? '12px 12px 12px 0' : '12px 12px 0 12px';
-    messageDiv.style.padding = '1rem';
-    messageDiv.style.maxWidth = '85%';
-    messageDiv.style.boxShadow = '0 2px 4px rgba(0, 0, 0, 0.05)';
-
-    const indicator = document.createElement('span');
-    indicator.className = isUser ? 'message-indicator user-indicator' : 'message-indicator ai-indicator';
-    indicator.textContent = text;
-    indicator.style.fontSize = '0.875rem';
-    indicator.style.fontWeight = '500';
-    indicator.style.padding = '0.25rem 0.75rem';
-    indicator.style.borderRadius = '9999px';
-    indicator.style.marginBottom = '0.5rem';
-    indicator.style.display = 'inline-block';
-    
-    messageDiv.appendChild(indicator);
-    messageDiv.appendChild(element);
-    wrapper.appendChild(messageDiv);
-  }
-
-  // Add user input indicators
-  const userInputs = clonedDiv.querySelectorAll('span.x1lliihq.x1plvlek.xryxfnj.x1n2onr6.xyejjpt.x15dsfln.x193iq5w.xeuugli.x1fj9vlw.x13faqbe.x1vvkbs.x1s928wv.xhkezso.x1gmr53x.x1cpjm7i.x1fgarty.x1943h6x');
-  userInputs.forEach(input => {
-    addIndicator(input, '👤 User', true);
+  // Clean up the conversation content
+  const messages = [];
+  
+  // Extract user messages
+  const userMessages = clonedDiv.querySelectorAll('span.x1lliihq.x1plvlek');
+  userMessages.forEach(msg => {
+    const content = msg.innerHTML;
+    messages.push({ type: 'user', content });
   });
 
-  // Add AI response indicators
-  const aiResponses = clonedDiv.querySelectorAll('div.xb57i2i:not(:has(span.x1lliihq.x1plvlek.xryxfnj.x1n2onr6))');
-  aiResponses.forEach(response => {
-    addIndicator(response, '🤖 AI', false);
+  // Extract AI messages
+  const aiMessages = clonedDiv.querySelectorAll('div.html-div.xdj266r:not(:has(span.x1lliihq.x1plvlek))');
+  aiMessages.forEach(msg => {
+    const content = msg.innerHTML;
+    messages.push({ type: 'ai', content });
+  });
+
+  // Sort messages by their DOM order
+  messages.sort((a, b) => {
+    const aEl = clonedDiv.querySelector(`*:contains("${a.content}")`);
+    const bEl = clonedDiv.querySelector(`*:contains("${b.content}")`);
+    return aEl.compareDocumentPosition(bEl) & Node.DOCUMENT_POSITION_FOLLOWING ? -1 : 1;
   });
 
   const htmlDoc = clonedDiv.outerHTML;
