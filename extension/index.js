@@ -77,6 +77,7 @@ async function scrape() {
   ].filter(div => {
     // Exclude elements inside user messages
     if (div.closest('span.x1lliihq.x1plvlek')) return false;
+    if (div.hasAttribute('aria-live')) return false;
     
     // Include section headers
     if (div.querySelector('[id^="section-"]')) return true;
