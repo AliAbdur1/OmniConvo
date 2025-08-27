@@ -77,7 +77,11 @@ async function scrape() {
   ].filter(div => {
     // Exclude elements inside user messages
     if (div.closest('span.x1lliihq.x1plvlek')) return false;
-    if (div.hasAttribute('aria-live')) return false;
+    
+    // Exclude aria-live divs that are also html-div.xdj266r
+    if (div.hasAttribute('aria-live') && 
+        div.classList.contains('html-div') && 
+        div.classList.contains('xdj266r')) return false;
     
     // Include section headers
     if (div.querySelector('[id^="section-"]')) return true;
