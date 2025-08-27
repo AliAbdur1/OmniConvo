@@ -15,7 +15,7 @@ chrome.runtime.onMessage.addListener(function (request, _, sendResponse) {
 
 async function scrape() {
   // Find all message content divs
-  const messageDivs = document.querySelectorAll('div.html-div.xdj266r');
+  const messageDivs = document.querySelectorAll('div.html-div.xdj266r:not([aria-live])');
   console.log('Found message divs:', messageDivs.length);
   if (!messageDivs.length || isRequesting) {
     console.log('No messages found or already requesting');
