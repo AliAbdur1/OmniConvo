@@ -37,7 +37,7 @@ async function scrape() {
   const clonedDiv = conversationDiv.cloneNode(true);
 
   // Remove UI controls container
-  const controlsToRemove = clonedDiv.querySelectorAll('div.x78zum5.xmixu3c');
+  const controlsToRemove = clonedDiv.querySelectorAll('div.x78zum5.xmixu3c, [aria-live]');
   controlsToRemove.forEach(controls => controls.remove());
 
   // Add indicators for both user inputs and AI responses
